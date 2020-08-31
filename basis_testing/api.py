@@ -183,23 +183,6 @@ def relop():
     """
     return random.choice(["==", "<=", ">", "<", ">=", "!="])
 
-def number(start, end, steps=1, max_decimals=2):
-    """
-        Function number
-        Return a random number
-
-        Inputs:
-        - start: minimum allowed value
-        - end: maximum allowed value (inclusive)
-        - steps: the interval from which to select the random numbers
-        - max_decimals: maximum number of decimals
-
-        Output: a string containing a random number
-    """
-    return round(random.choice(numpy.arange(start, end + 1, steps)), max_decimals)
-
-n = number
-
 def integer(start, end, steps=1):
     """
         Function integer
@@ -232,6 +215,28 @@ def floating(start, end, steps=0.5, max_decimals=2):
     return round(float(random.choice(numpy.arange(start, end + 1, steps))), max_decimals)
 
 f = floating
+
+def number(start, end, steps=1, max_decimals=2):
+    """
+        Function number
+        Return a random number
+
+        Inputs:
+        - start: minimum allowed value
+        - end: maximum allowed value (inclusive)
+        - steps: the interval from which to select the random numbers
+        - max_decimals: maximum number of decimals
+
+        Output: a string containing a random number, int or float
+    """
+    is_int = random.choice([True, False])
+
+    if is_int:
+        return integer(start, end, steps=round(steps))
+    else:
+        return floating(start, end, steps=steps, max_decimals=max_decimals)
+
+n = number
 
 def intlist(start, end, minlength, maxlength, intsteps=1, lengthsteps=1):
     """
