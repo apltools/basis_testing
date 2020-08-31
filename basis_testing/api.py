@@ -232,7 +232,11 @@ def number(start, end, steps=1, max_decimals=2):
     is_int = random.choice([2, 3])
 
     if is_int == 2:
-        return integer(start, end, steps=round(steps))
+        stps = round(steps)
+        if stps < 1:
+            stps = 1
+
+        return integer(start, end, steps=stps)
     else:
         return floating(start, end, steps=steps, max_decimals=max_decimals)
 
