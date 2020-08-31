@@ -229,9 +229,9 @@ def number(start, end, steps=1, max_decimals=2):
 
         Output: a string containing a random number, int or float
     """
-    is_int = random.choice([True, False])
+    is_int = random.choice([2, 3])
 
-    if is_int:
+    if is_int == 2:
         return integer(start, end, steps=round(steps))
     else:
         return floating(start, end, steps=steps, max_decimals=max_decimals)
