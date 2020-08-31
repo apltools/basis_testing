@@ -26,7 +26,7 @@ setuptools.setup(
         "Development Status :: 1 - Planning"
     ],
     install_requires=[
-        'xeger',
+        'xeger', 'basis @ https://api.github.com/repos/jelleas/basis/tarball',
     ],
     python_requires='>=3.6',
     include_package_data=True,
