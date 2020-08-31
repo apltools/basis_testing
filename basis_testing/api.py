@@ -6,9 +6,11 @@
     Defines functions usable in templates.
 """
 
+import numpy
 import random
 import itertools
 import pkg_resources
+BACKLOG = []
 VARIABLES = {}
 ALIASES = {}
 BAD_WORDS = {}
@@ -29,6 +31,46 @@ def __load_bad_words():
 
     # Fill BAD_WORDS
     BAD_WORDS = {word.strip() for word in data.splitlines()}
+
+def get_variables():
+    global VARIABLES
+    return VARIABLES
+
+def clear_variables():
+    global VARIABLES
+    global ALIASES
+    VARIABLES = {}
+    ALIASES = {}
+
+def set_backlog(in_backlog):
+    """
+        Function set_backlog
+        Sets the choice backlog
+
+        Inputs: 
+        - in_backlog: the choice backlog to set
+
+        Output: None
+    """
+    global BACKLOG
+    BACKLOG = in_backlog
+
+def choice(choices):
+    """
+        Function choice
+        Make a choice between options
+
+        Inputs: 
+        - choices: the possible options
+
+        Output: One of the options
+    """
+    global BACKLOG
+    if not BACKLOG:
+        sys_random = random.SystemRandom()
+        return sys_random.choice(choices)
+    else:
+        return BACKLOG.pop(0)
 
 def alias(alias, reference):
     """
@@ -85,7 +127,7 @@ def __generate_var(length = 3, depth = 0):
 def var(reference):
     """
         Function var
-        Returns a known of new variable name based on the provided reference
+        Returns a known or new variable name based on the provided reference
 
         Inputs: 
         - reference: the reference of the variable, optionally with a variable length
@@ -141,7 +183,7 @@ def relop():
     """
     return random.choice(["==", "<=", ">", "<", ">=", "!="])
 
-def number(start, end, steps = 1):
+def number(start, end, steps=1, max_decimals=2):
     """
         Function number
         Return a random number
@@ -150,14 +192,15 @@ def number(start, end, steps = 1):
         - start: minimum allowed value
         - end: maximum allowed value (inclusive)
         - steps: the interval from which to select the random numbers
+        - max_decimals: maximum number of decimals
 
         Output: a string containing a random number
     """
-    return str(random.randrange(start, end + 1, steps))
+    return round(random.choice(numpy.arange(start, end + 1, steps)), max_decimals)
 
 n = number
 
-def integer(start, end, steps = 1):
+def integer(start, end, steps=1):
     """
         Function integer
         Return a random integer
@@ -173,7 +216,7 @@ def integer(start, end, steps = 1):
 
 i = integer
 
-def floating(start, end, steps = 0.5):
+def floating(start, end, steps=0.5, max_decimals=2):
     """
         Function floating
         Return a random float
@@ -182,10 +225,11 @@ def floating(start, end, steps = 0.5):
         - start: minimum allowed value
         - end: maximum allowed value (inclusive)
         - steps: the interval from which to select the random floats
+        - max_decimals: maximum number of decimals
 
         Output: a string containing a random float
     """
-    return str(float(random.randrange(start, end + 1, steps)))
+    return round(float(random.choice(numpy.arange(start, end + 1, steps))), max_decimals)
 
 f = floating
 
@@ -211,3 +255,7 @@ def intlist(start, end, minlength, maxlength, intsteps=1, lengthsteps=1):
     return str([int(random.randrange(start, end + 1, intsteps)) for _ in range(length)])
 
 __load_bad_words()
+
+def compex(variable, start, end, steps):
+    sys_random = random.SystemRandom()
+    return var(variable) + ' ' + sys_random.choice(['<', '>', '==', '!=', '<=', '>=']) + ' ' + str(number(start, end, steps))
