@@ -195,6 +195,9 @@ def integer(start, end, steps=1):
 
         Output: a string containing a random integer
     """
+    if type(steps) == float or steps < 1:
+        steps = 1
+        
     return str(int(random.randrange(start, end + 1, steps)))
 
 i = integer

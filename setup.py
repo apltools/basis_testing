@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="basis_testing",
-    version="0.0.1",
+    version="0.0.2",
     author="Minor Programmeren",
     author_email="help@mprog.nl",
     description="A package to dynamically generate programming assignments based on templates.",
