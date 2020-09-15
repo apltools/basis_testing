@@ -33,6 +33,7 @@ class Template:
         self.variables = None
         self.end_values = {}
         self.evaluate = ''
+        self.printed_output = ''
 
     def __fill_template(self):
         """
@@ -206,3 +207,17 @@ class Template:
         os.remove('tempfile.basis')
             
         self.evaluate = result
+
+    def calc_printed_output(self):
+        try:
+            os.remove('tempfile.basis')
+        except:
+            pass
+
+        with open('tempfile.basis', 'w') as f:
+            f.write(temp_test)
+
+        result = basis.interpret('tempfile.basis')[0]
+        os.remove('tempfile.basis')
+            
+        self.printed_output = result
