@@ -141,7 +141,7 @@ class Template:
         count = 0
         while True:
             # Check count
-            if count >= 3:
+            if count >= 15:
                 return self
 
             # Fill the template
