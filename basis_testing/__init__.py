@@ -215,7 +215,7 @@ class Template:
             pass
 
         with open('tempfile.basis', 'w') as f:
-            f.write(temp_test)
+            f.write(self.full_test)
 
         result = basis.interpret('tempfile.basis')[0]
         os.remove('tempfile.basis')
